@@ -2,19 +2,24 @@ import React from 'react';
 import "./RegisterForBusiness.scss";
 import { useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import loginSchema from 'validation/login.validation';
+import Joi from 'joi-browser';
 
-const RegisterForBusiness1 = () => {
+
+const RegisterForBusiness = () => {
    const [userRegisterInfo, setuserRegisterInfo]=useState({
       name:"",
       email:"",
       password:"",
     });
   const [bizCardInfo, setBizCardInfo]=useState({
-   bizName:"",
-    desc:"",
+    title:"",
+    subTitle:"",
+    description:"",
     address:"",
     phone:"",
-   imgUrl:"",
+    url:"",
   });
 
     const onChangeRInputs = (ev)=>{
@@ -33,19 +38,83 @@ const RegisterForBusiness1 = () => {
       }
     } 
  const registerBizUser=()=>{
+  const validateValue=Joi.validate(userRegisterInfo, loginSchema);
+  if(validateValue.error){
+      toast.error(`${validateValue.error}`, {
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    });
+  }
+
+
+
   axios.post("/users/register",{
     name:userRegisterInfo.name,
     email:userRegisterInfo.email,
     password:userRegisterInfo.password,
     biz:true,
   }).then((res)=>{
-    console.log(res.request.statusText);
+    toast.success('Registered successfully!', {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
   }).catch((err)=>{
-    console.log(err.request.response);
+    toast.error(`${err.request.response}`, {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
   })
 }
-  const createBizCard=()=>{
 
+const createBizCard=()=>{
+  axios.post("/cards",{
+    title:bizCardInfo.title,
+    subTitle:bizCardInfo.title,
+    description:bizCardInfo.description,
+    address:bizCardInfo.address,
+    phone:bizCardInfo.phone,
+    url:bizCardInfo.url,
+  }).then((res)=>{
+toast.success('Card Added Successfully!', {
+position: "bottom-center",
+autoClose: 5000,
+hideProgressBar: false,
+closeOnClick: true,
+pauseOnHover: true,
+draggable: true,
+progress: undefined,
+theme: "dark",
+});
+  }).catch((err)=>{
+      toast.error(`${err.response.data}`, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
+  })
  }
  
 return (
@@ -53,7 +122,7 @@ return (
 <div className="registerbPageDiv">
     <h1 className='titleText'>Register For Busnisses</h1>
       {/* first slider */}
-      <div className="regsterbForm visibleForm"> 
+      <div className="regsterbForm  visibleForm"> 
            <div className="mb-3">
            <label htmlFor="exampleInputEmail1" className="form-label">Full Name</label>
            <input type="text" className="form-control" id="name" value={userRegisterInfo.name} onChange={onChangeRInputs} aria-describedby="emailHelp" />
@@ -76,10 +145,10 @@ return (
            </div>
 
         {/* /*the second page*/}
-           <div  className="regsterbForm hiddenForm"> 
+           <div  className="regsterbForm hiddenForm "> 
            <div className="mb-2">
            <label htmlFor="exampleInputEmail1" className="form-label">Busniss Name</label>
-           <input type="text" className="form-control" id="bizName" value={bizCardInfo.bizName} 
+           <input type="text" className="form-control" id="title" value={bizCardInfo.title} 
            onChange={onChangeCardInputs}
            aria-describedby="emailHelp" />
            <div id="emailHelp" className="form-text"></div>
@@ -87,7 +156,7 @@ return (
              
               <div className="mb-2">
            <label htmlFor="exampleInputEmail1" className="form-label">Description</label>
-           <input type="text" className="form-control" id="desc" value={bizCardInfo.desc} aria-describedby="emailHelp" onChange={onChangeCardInputs}/>
+           <input type="text" className="form-control" id="description" value={bizCardInfo.description} aria-describedby="emailHelp" onChange={onChangeCardInputs}/>
            <div id="emailHelp" className="form-text"></div>
            </div>
 
@@ -105,7 +174,7 @@ return (
 
            <div className="mb-2">
            <label htmlFor="exampleInputEmail1" className="form-label">Image Url</label>
-           <input type="url" className="form-control" id="imgUrl" value={bizCardInfo.imgUrl} aria-describedby="emailHelp" onChange={onChangeCardInputs}/>
+           <input type="url" className="form-control" id="url" value={bizCardInfo.url} aria-describedby="emailHelp" onChange={onChangeCardInputs}/>
            <div id="emailHelp" className="form-text"></div>
            </div>
 
@@ -116,4 +185,4 @@ return (
   );
 }
 
-export default RegisterForBusiness1;
+export default RegisterForBusiness;

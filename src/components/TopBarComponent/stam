@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
+<!-- import React, { Fragment } from 'react';
 import "./TopBarComponent.scss";
 import ListItemForTopBar from 'components/listItemForTopBar';
 import { Link } from 'react-router-dom';
+import ListItemComponent from './listItemComponent';
 
 let unLoggedUser={
   leftList:[
@@ -23,7 +24,7 @@ rightList:[
     url:"/",
   },
   {
-    label:"Register for Busniss",
+    label:"For Busniss",
     url:"/",
   }
 ], 
@@ -65,16 +66,18 @@ const TopBarComponent = () => {
         </a>
     <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-        {/* /*here will be the map on the links lists*/ }
-        <ListItemForTopBar />{/*this is the left container*/}
+        {/*will add the other list when adding the redux and loggedIn*/}
+        {unLoggedUser.leftList.map((item,idx)=>(
+          <ListItemComponent  label={item.label} url={item.url} dir="left" key={idx+"list2"}/>
+        ))
+        }
       </ul>
 
       <span className="navbar-text">
-        {/*right list container - will be rendered differently*/}
-      <a  className="homeBtns"> Login</a> |
-      {/* <Link to={""} className="homeBtns">Login</Link> | */}
-      <a  className="homeBtns"> Register</a> | 
-      <button type="button" className="btn btn-primary forBusBtn"> For Busniess</button>
+      {unLoggedUser.rightList.map((item,idx)=>(
+          <ListItemComponent  label={item.label} url={item.url} dir="right" key={idx+"list"}/>
+        ))
+        }
       </span>
     </div>
   </div>
@@ -83,4 +86,4 @@ const TopBarComponent = () => {
     );
 }
 
-export default TopBarComponent;
+export default TopBarComponent; -->

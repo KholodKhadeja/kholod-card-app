@@ -2,6 +2,9 @@ import React from 'react';
 import "./RegisterPage.scss";
 import { useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import loginSchema from 'validation/login.validation';
+import Joi from 'joi-browser';
 
 const RegisterPage = () => {
   const [userRegisterDetails, setUserRegisterDetails]=useState({
@@ -19,14 +22,48 @@ const RegisterPage = () => {
   }
 
 const handleRegisterFormSubmition = ()=>{
+  const validateValue=Joi.validate(userRegisterDetails, loginSchema);
+  if(validateValue.error){
+      toast.error(`${validateValue.error}`, {
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    });
+  }
+
 axios.post("/users/register",{
   name:userRegisterDetails.name,
   email:userRegisterDetails.email,
   password:userRegisterDetails.password,
 }).then((res)=>{
-  console.log(res.request.statusText);
+  // console.log(res.request.statusText);
+  toast.success('Registered successfully!', {
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    });
 }).catch((err)=>{
-  console.log(err.request.response);
+  // console.log(err.request.response);
+  toast.error(`${err.request.response}`, {
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    });
 })
 };
 
