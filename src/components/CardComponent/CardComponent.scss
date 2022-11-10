@@ -1,0 +1,25 @@
+@import '../../App.scss';
+.cardH{
+    max-width: 550px !important;
+    height: fit-content !important;
+    text-align:  left !important;
+}
+.img-fluidH{
+    height: 100% !important;
+   max-width: 200px !important;
+}
+.card-bodyH{
+    max-width: 300px !important;
+    margin-left: 2rem !important;
+}
+
+.cardV{
+    text-align: left !important;
+    max-width: 300px !important;
+    height: fit-content !important;
+}
+
+.editBtn{
+    background-color: #323232d5 !important;
+    border: none !important;
+}

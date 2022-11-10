@@ -1,0 +1,32 @@
+@import '../../App.scss';
+.backgroundDiv{
+background-image: url(https://github.com/KholodKhadeja/ProjectImages/blob/main/bg-img.jpg?raw=true);
+  /* Full height */
+  height: 90vh !important;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.loginPageDiv{
+    height: 90vh !important;
+background-color: rgba(255, 255, 255, 0.357);
+}
+.signForm{
+    width: 30vw;
+    text-align: left !important;
+    margin: 1rem auto !important;
+    font-weight: bolder;
+    text-shadow: 2px -1px 18px white;
+}
+.titleText{
+    font-weight: bolder;
+    padding-top: 2rem !important;
+    text-shadow: 2px -1px 18px $basic-orange;
+}
+.signInBtn{
+    background-color:  $basic-orange !important;
+    border: none !important;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}

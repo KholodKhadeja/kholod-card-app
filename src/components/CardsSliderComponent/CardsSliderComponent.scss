@@ -1,0 +1,10 @@
+@import '../../App.scss';
+.cardsSlider{
+    background-color: rgba(0, 0, 0, 0.91);
+    padding-top: $md-padding;
+    height: fit-content;
+}
+.sliderImg{
+    width: 10% !important;
+    margin: 0 auto;
+}

@@ -1,0 +1,10 @@
+@import '../../App.scss';
+
+body{
+    background-color: $basic-text-color;
+}
+.aboutUsContainer{
+    padding: $lg-padding;
+    background-color: rgba(255, 255, 255, 0.64);
+    text-align: left !important;
+}

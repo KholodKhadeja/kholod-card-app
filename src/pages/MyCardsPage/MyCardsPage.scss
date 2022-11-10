@@ -1,0 +1,41 @@
+@import '../../App.scss';
+
+.conatinerDiv{
+background-image: url(https://github.com/KholodKhadeja/ProjectImages/blob/main/bg4.jpg?raw=true);
+  min-height: 98vh !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.myCardsPageDiv{
+padding: $main-padding;
+min-height: 98vh !important;
+background-color: rgba(255, 255, 255, 0.357);
+}
+.myCardsTitle{
+  text-align: left !important;
+  text-shadow: 2px -1px 18px white;
+}
+
+.cardsContainer{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem !important;
+}
+.input-group{
+  max-width: 20rem !important;
+}
+
+.rightContainer{
+display: flex;
+flex-direction: row;
+}
+.sortIcon{
+  background-color: white;
+  padding: 0.5rem !important;
+  margin-right: 0.5rem;
+  height: 2rem !important;width: 2rem !important;
+   border-radius: 0.5rem;
+   text-shadow: 2px 2px 18px black !important;
+}
+
