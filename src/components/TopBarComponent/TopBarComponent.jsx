@@ -1,13 +1,20 @@
 
 import "./TopBarComponent.scss";
 import { Fragment } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ListItemRightList from 'partial/listItemRightList';
 import ListItemLeftList from 'partial/listItemLeftList';
+import { authActions } from "store/auth";
 
 // import { Link } from 'react-router-dom';
 const TopBarComponent = () => {
+  const dispatch=useDispatch();
 const loggedIn=useSelector((state)=>state.auth.loggedInVar);
+const loggedInUserData=useSelector((state)=> state.auth.userInfo);{/*we will use it late with useRef*/}
+// useEffect(() => {
+// if() 
+// }, [loggedIn]);
+
   let unLoggedleftList = [
     {
       label:"Home",
@@ -57,6 +64,11 @@ let LoggedInleftList= [
       }
     ];
 
+    // const handlePageLogout=()=>{
+    //    localStorage.clear();
+    //    console.log("logout successfully done");
+    //   //  dispatch(authActions.logout());
+    // }
     return (
     <Fragment>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">

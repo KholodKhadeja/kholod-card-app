@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { authActions } from "store/auth";
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import jwt_decode from "jwt-decode";
 
 
 const LoginPage = () => {
@@ -24,8 +25,11 @@ const LoginPage = () => {
             ev.preventDefault();
             axios.post("/users/login", userLoginInfo)
             .then((res)=>{
-              localStorage.setItem("token",res.data.token);
-              dispatch(authActions.login());
+              let dataVar=res.data.token;
+              let tokenData=jwt_decode(dataVar);
+              localStorage.setItem("token",dataVar);
+              dispatch(authActions.login(tokenData));
+              // console.log(tokenData);
               toast.success('Logged in successfully!', {
                 position: "bottom-center",
                 autoClose: 5000,
