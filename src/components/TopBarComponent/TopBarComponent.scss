@@ -1,9 +1,11 @@
 @import '../../App.scss';
-.navbar-text{
-
+.d-flex{
+align-items: center !important;
 }
-.homeBtns{
 
+.homeBtns{
+    margin: 0 0.5rem !important;
+    text-decoration: none !important;
 }
 .forBusBtn{
     background-color: $basic-orange !important;

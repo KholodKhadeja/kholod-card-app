@@ -1,10 +1,13 @@
-import React from 'react';
 import "./LoginPage.scss";
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { authActions } from "store/auth";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+
 const LoginPage = () => {
+  const dispatch= useDispatch();
   const [userLoginInfo, setuserLoginInfo]=useState({
     email:"",
     password:"",
@@ -21,6 +24,8 @@ const LoginPage = () => {
             ev.preventDefault();
             axios.post("/users/login", userLoginInfo)
             .then((res)=>{
+              localStorage.setItem("token",res.data.token);
+              dispatch(authActions.login());
               toast.success('Logged in successfully!', {
                 position: "bottom-center",
                 autoClose: 5000,
@@ -31,7 +36,7 @@ const LoginPage = () => {
                 progress: undefined,
                 theme: "dark",
                 });
-                localStorage.setItem("token",res.data.token);
+               
             }).catch((err)=>{
               let errorMsg;
               if(err.response.data==="Invalid email or password."){

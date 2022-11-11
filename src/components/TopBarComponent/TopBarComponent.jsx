@@ -1,81 +1,96 @@
-import React, { Fragment } from 'react';
+
 import "./TopBarComponent.scss";
-import ListItemForTopBar from 'components/listItemForTopBar';
-import { Link } from 'react-router-dom';
+import { Fragment } from "react";
+import { useSelector } from 'react-redux';
+import ListItemRightList from 'partial/listItemRightList';
+import ListItemLeftList from 'partial/listItemLeftList';
 
-let unLoggedUser={
-  leftList:[
-{
-  label:"Home",
-  url:"/",
-},
-{
-  label:"About Us",
-  url:"/",
-}], 
-rightList:[
-  {
-    label:"Login",
-    url:"/",
-  },
-  {
-    label:"Register",
-    url:"/",
-  },
-  {
-    label:"Register for Busniss",
-    url:"/",
-  }
-], 
-}
-
-let LoggedInUser={
-  leftList:[
-{
-  label:"Home",
-  url:"/",
-},
-{
-  label:"My Cards", /*for busniss show the button of add*/
-  url:"/",
-},
-{
-  label:"About Us",
-  url:"/",
-}], 
-rightList:[
-  {
-    label:"User name",
-    url:"/",
-  },
-  {
-    label:"Logout",
-    url:"/",
-  }
-], 
-}
+// import { Link } from 'react-router-dom';
 const TopBarComponent = () => {
+const loggedIn=useSelector((state)=>state.auth.loggedInVar);
+  let unLoggedleftList = [
+    {
+      label:"Home",
+      url:"/",
+    },
+    {
+      label:"About Us",
+      url:"/",
+    }];
+    
+    let unLoggedrightList=[
+      {
+        label:"Login",
+        url:"/",
+      },
+      {
+        label:"Register",
+        url:"/",
+      },
+      {
+        label:"For Busniess",
+        url:"/",
+      }
+    ];
+    
+let LoggedInleftList= [
+    {
+      label:"Home",
+      url:"/",
+    },
+    {
+      label:"My Cards", /*for busniss show the button of add*/
+      url:"/",
+    },
+    {
+      label:"About Us",
+      url:"/",
+    }];
+  let  LoggedInrightList=[
+      {
+        label:"User name",
+        url:"/",
+      },
+      {
+        label:"Logout",
+        url:"/",
+      }
+    ];
+
     return (
     <Fragment>
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
   <div className="container-fluid">
-    <a className="navbar-brand">
+    <a className="navbar-brand" href="#">
         <img src="https://github.com/KholodKhadeja/logoImage/blob/main/logoImg.png?raw=true"  width="90"
-         height="50"/>
-        </a>
-    <div className="collapse navbar-collapse" id="navbarNav">
-      <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-        {/* /*here will be the map on the links lists*/ }
-        <ListItemForTopBar />{/*this is the left container*/}
+   height="50"/></a>
+
+    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" 
+    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span className="navbar-toggler-icon"></span>
+    </button>
+
+    <div className="collapse navbar-collapse" id="navbarText">
+    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+   {
+    loggedIn ?   LoggedInleftList.map((item, idx)=>(
+      <ListItemLeftList  key={"left"+idx} label={item.label}/> )) :
+           unLoggedleftList.map((item, idx)=>(
+             <ListItemLeftList  key={"left"+idx} label={item.label}/>
+                  ))
+   }
       </ul>
 
-      <span className="navbar-text">
-        {/*right list container - will be rendered differently*/}
-      <a  className="homeBtns"> Login</a> |
-      {/* <Link to={""} className="homeBtns">Login</Link> | */}
-      <a  className="homeBtns"> Register</a> | 
-      <button type="button" className="btn btn-primary forBusBtn"> For Busniess</button>
-      </span>
+      <ul className="d-flex navbar-nav mb-2 mb-lg-0"> 
+          {
+            loggedIn ? LoggedInrightList.map((item, idx)=>(
+              <ListItemRightList key={idx+"right"} label={item.label}/>
+            )) : 
+            unLoggedrightList.map((item, idx)=>(
+              <ListItemRightList key={idx+"right"} label={item.label}/>
+            ))
+        }
+      </ul>
     </div>
   </div>
 </nav>
