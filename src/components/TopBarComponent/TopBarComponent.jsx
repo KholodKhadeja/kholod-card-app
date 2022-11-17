@@ -18,49 +18,49 @@ const loggedInUserData=useSelector((state)=> state.auth.userInfo);{/*we will use
   let unLoggedleftList = [
     {
       label:"Home",
-      url:"/",
+      url:"/home",
     },
     {
       label:"About Us",
-      url:"/",
+      url:"/aboutus",
     }];
     
     let unLoggedrightList=[
       {
         label:"Login",
-        url:"/",
+        url:"/login",
       },
       {
         label:"Register",
-        url:"/",
+        url:"/register",
       },
       {
         label:"For Busniess",
-        url:"/",
+        url:"/registerb",
       }
     ];
     
 let LoggedInleftList= [
     {
       label:"Home",
-      url:"/",
+      url:"/home",
     },
     {
       label:"My Cards", /*for busniss show the button of add*/
-      url:"/",
+      url:"/mycards",
     },
     {
       label:"About Us",
-      url:"/",
+      url:"/aboutus",
     }];
   let  LoggedInrightList=[
       {
-        label:"User name",
-        url:"/",
+        label:"name",
+        url:"#",
       },
       {
         label:"Logout",
-        url:"/",
+        url:"#",
       }
     ];
 
@@ -86,9 +86,9 @@ let LoggedInleftList= [
     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
    {
     loggedIn ?   LoggedInleftList.map((item, idx)=>(
-      <ListItemLeftList  key={"left"+idx} label={item.label}/> )) :
+      <ListItemLeftList  key={"left"+idx} label={item.label} url={item.url}/> )) :
            unLoggedleftList.map((item, idx)=>(
-             <ListItemLeftList  key={"left"+idx} label={item.label}/>
+             <ListItemLeftList  key={"left"+idx} label={item.label} url={item.url}/>
                   ))
    }
       </ul>
@@ -96,10 +96,10 @@ let LoggedInleftList= [
       <ul className="d-flex navbar-nav mb-2 mb-lg-0"> 
           {
             loggedIn ? LoggedInrightList.map((item, idx)=>(
-              <ListItemRightList key={idx+"right"} label={item.label}/>
+              <ListItemRightList key={idx+"right"} label={item.label} url={item.url}/>
             )) : 
             unLoggedrightList.map((item, idx)=>(
-              <ListItemRightList key={idx+"right"} label={item.label}/>
+              <ListItemRightList key={idx+"right"} label={item.label} url={item.url}/>
             ))
         }
       </ul>

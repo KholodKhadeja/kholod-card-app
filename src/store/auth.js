@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialAuthState = {
   loggedInVar: false,
-  userInfo:{},
+  userInfo:{}, /*encrypted data about token*/
+  userData:null, /*data that contains the user name*/
 };
 const authSlice = createSlice({
   name: "auth",
@@ -15,6 +16,9 @@ const authSlice = createSlice({
        state.loggedInVar = false; 
       state.userInfo={};
     },
+    updateUserData(state, action){
+      state.userData=action.payload;
+    }
   },
 });
 export const authActions = authSlice.actions;

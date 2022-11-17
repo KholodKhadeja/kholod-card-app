@@ -26,10 +26,10 @@ const LoginPage = () => {
             axios.post("/users/login", userLoginInfo)
             .then((res)=>{
               let dataVar=res.data.token;
-              let tokenData=jwt_decode(dataVar);
+              let tokenData=jwt_decode(dataVar); 
               localStorage.setItem("token",dataVar);
               dispatch(authActions.login(tokenData));
-              // console.log(tokenData);
+
               toast.success('Logged in successfully!', {
                 position: "bottom-center",
                 autoClose: 5000,
