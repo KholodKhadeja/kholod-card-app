@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import CardComponent from 'components/CardComponent/CardComponent';
-import HCardComponent from 'components/CardComponent/HCardComponent';
-import CardEditingComponent from 'components/CardEditingComponent/CardEditingComponent';
-import HCardEditingComponent from 'components/CardEditingComponent/HCardEditingComponent';
+import CreateCardComponent from 'components/CardEditingComponent/CreateCardComponent';
 import TextRotateUpIcon from '@mui/icons-material/TextRotateUp';
 import TextRotationDownIcon from '@mui/icons-material/TextRotationDown';
 
@@ -62,7 +61,7 @@ const function2 = () =>{
                 aria-describedby="basic-addon1" value={searchInput} onChange={handleSearchInputChange} />
             </div>
             {/*this button should be showd only to biz*/}
-            <button type="button" className="btn btn-danger btnAddCard">Add Card</button>
+            <Link  className="btn btn-danger btnAddCard">Add Card</Link>
             </div>
             <div className='rightContainer'>
            < TextRotateUpIcon className='sortIcon'  onClick={function1} />
@@ -73,16 +72,12 @@ const function2 = () =>{
             <div className="cardsContainer">
               { console.log(busnissCards)}
             {  busnissCards.map((item,idx) => (
-                    <HCardEditingComponent  key={"card"+idx} title={item.title} desc={item.descreption}
+                    <CreateCardComponent  key={"card"+idx} title={item.title} desc={item.descreption}
                      id={item._id}
                     address={item.address} phone={item.phone} imgUrl={item.image.url} 
                     onCardDelete={handleChildDelete}
                     />
                 ))}
-               {/* <HCardEditingComponent /> */}
-               {/* <CardComponent/>
-               <CardEditingComponent /> */}
-
             </div>
         </div>
      </div>

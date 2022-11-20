@@ -18,11 +18,11 @@ const loggedInUserData=useSelector((state)=> state.auth.userInfo);{/*we will use
   let unLoggedleftList = [
     {
       label:"Home",
-      url:"/home",
+      url:"/",
     },
     {
       label:"About Us",
-      url:"/aboutus",
+      url:"/about",
     }];
     
     let unLoggedrightList=[
@@ -43,7 +43,7 @@ const loggedInUserData=useSelector((state)=> state.auth.userInfo);{/*we will use
 let LoggedInleftList= [
     {
       label:"Home",
-      url:"/home",
+      url:"/",
     },
     {
       label:"My Cards", /*for busniss show the button of add*/
@@ -51,7 +51,7 @@ let LoggedInleftList= [
     },
     {
       label:"About Us",
-      url:"/aboutus",
+      url:"/about",
     }];
   let  LoggedInrightList=[
       {
@@ -63,7 +63,6 @@ let LoggedInleftList= [
         url:"#",
       }
     ];
-
     // const handlePageLogout=()=>{
     //    localStorage.clear();
     //    console.log("logout successfully done");
@@ -74,7 +73,7 @@ let LoggedInleftList= [
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
   <div className="container-fluid">
     <a className="navbar-brand" href="#">
-        <img src="https://github.com/KholodKhadeja/logoImage/blob/main/logoImg.png?raw=true"  width="90"
+        <img src="https://github.com/KholodKhadeja/ProjectImages/blob/main/logoImg.png?raw=true"  width="90"
    height="50"/></a>
 
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" 
@@ -86,9 +85,9 @@ let LoggedInleftList= [
     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
    {
     loggedIn ?   LoggedInleftList.map((item, idx)=>(
-      <ListItemLeftList  key={"left"+idx} label={item.label} url={item.url}/> )) :
+      <ListItemLeftList  key={"left"+idx} label={item.label} link={item.url}/> )) :
            unLoggedleftList.map((item, idx)=>(
-             <ListItemLeftList  key={"left"+idx} label={item.label} url={item.url}/>
+             <ListItemLeftList  key={"left"+idx} label={item.label} link={item.url}/>
                   ))
    }
       </ul>
@@ -96,10 +95,10 @@ let LoggedInleftList= [
       <ul className="d-flex navbar-nav mb-2 mb-lg-0"> 
           {
             loggedIn ? LoggedInrightList.map((item, idx)=>(
-              <ListItemRightList key={idx+"right"} label={item.label} url={item.url}/>
+              <ListItemRightList key={idx+"right"} label={item.label} link={item.url}/>
             )) : 
             unLoggedrightList.map((item, idx)=>(
-              <ListItemRightList key={idx+"right"} label={item.label} url={item.url}/>
+              <ListItemRightList key={idx+"right"} label={item.label} link={item.url}/>
             ))
         }
       </ul>

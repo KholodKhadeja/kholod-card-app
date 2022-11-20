@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import "./IntroSectionComponent.scss";
 
 const IntroSectionComponent = () => {
@@ -12,7 +13,7 @@ const IntroSectionComponent = () => {
                     Customize The Card And Download it.
                     What Are You Waiting For?<br/>
                     Register and Start You Free Account Now! <br /><br />
-                    <button type="button" className="btn btn-primary forBusBtn"> Register Now</button>
+                    <Link tp="" className="btn btn-primary forBusBtn"> Register Now</Link>
                      </p>
             </div>
             <div className='rightImgDiv'>

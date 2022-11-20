@@ -1,10 +1,10 @@
 import { Fragment } from "react";
-import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
+import { NavLink, Link } from "react-router-dom";
 import { authActions } from "store/auth";
 
 
-const ListItemRightList = ({label,url}) => {
+const ListItemRightList = ({label,link}) => {
   const userName= useSelector((state)=>state.auth.userData);
   const dispatch=useDispatch();
   const handlePageLogout = () =>{
@@ -13,20 +13,28 @@ const ListItemRightList = ({label,url}) => {
   }
 
     if(label === "For Busniess"){
-       return(<a  className="btn btn-primary forBusBtn" to={url}> {label}</a>);
+       return(
+        <li className="nav-item">
+       <button  className="btn btn-primary forBusBtn" to={link}> {label}</button>
+       </li>
+       );
      }
      if(label === "Logout"){
-      return(<button  className="btn btn-primary forBusBtn" onClick={handlePageLogout}>
-         {label}</button>);
+      return(  <li className="nav-item">
+      <Link  className="btn btn-primary forBusBtn" onClick={handlePageLogout}>
+         {label}</Link></li>
+         );
     }
     if(label === "name"){
       return(
-        <span  className="homeBtns">{userName.name} | </span>
+        <li className="nav-item">
+        <span  className="homeBtns">{userName.name} | </span></li>
       )
     }
     else{
-       return(
-         <a  className="homeBtns" to={url}>{label} | </a>
+       return(  <li className="nav-item">
+         <NavLink  className="homeBtns" to={link}   isActive={(match, location) => match && match.isExact}>
+          {label} | </NavLink></li>
        );
 }
 }

@@ -1,12 +1,13 @@
-
-const ListItemLeftList = ({label}) => {
+import { NavLink } from "react-router-dom";
+const ListItemLeftList = ({label,link}) => {
  return(
   <li className="nav-item">
-  <a className="nav-link" href="#">
+  <NavLink className="nav-link" to={link}   isActive={(match, location) => match && match.isExact}>
     {label}
-  </a>
+  </NavLink>
 </li>
 );
 }
+
 
 export default ListItemLeftList;

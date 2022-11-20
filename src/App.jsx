@@ -11,6 +11,7 @@ import {
   Switch,
   Route,
   Link,
+  NavLink,
   BrowserRouter
 } from "react-router-dom";
 import TopBarComponent from 'components/TopBarComponent/TopBarComponent';
@@ -22,6 +23,7 @@ import AboutUsPage from 'pages/AboutUsPage/AboutUsPage';
 import MyCardsPage from 'pages/MyCardsPage/MyCardsPage';
 import Modal from 'components/EditingModal/ModalComponent';
 import { ToastContainer, toast } from 'react-toastify';
+import EditeCardComponent from 'components/CardEditingComponent/EditeCardComponent';
 import { authActions } from 'store/auth';
 function App() {
   const dispatch = useDispatch();
@@ -51,9 +53,9 @@ useEffect(() => {
 
 return (
    <div className='App container'>
-    <ToastContainer/>
+   <ToastContainer/>
     <TopBarComponent />
-    <BrowserRouter>
+
   <Switch>
   <Route path="/" exact  component={HomePageComponent}></Route>
   <Route path="/login"   component={LoginPage}></Route>
@@ -61,9 +63,10 @@ return (
   <Route path="/registerb" component={RegisterForBusiness}></Route>
   <Route path="/about" component={AboutUsPage}></Route>
   <Route path="/mycards" component={MyCardsPage}></Route>
+  <Route path="/editcard" component={EditeCardComponent}></Route>
   <Route path="/modal" component={Modal}></Route>
   </Switch>
-  </BrowserRouter>
+
    <FooterComponent/>
    </div>
   );

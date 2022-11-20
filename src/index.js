@@ -1,9 +1,11 @@
 import axios from 'axios';
 import ReactDOM from 'react-dom/client';
+import { NavLink } from 'react-router-dom';
 import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from "react-router-dom";
 import store from "./store/index";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.js";
@@ -23,7 +25,9 @@ axios.interceptors.request.use((config)=>{
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 <Provider store={store}>
+<BrowserRouter>
     <App />
+    </BrowserRouter>
 </Provider>
 );
 
