@@ -5,8 +5,10 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import loginSchema from 'validation/login.validation';
 import Joi from 'joi-browser';
+import { useHistory } from 'react-router-dom';
 
 const RegisterPage = () => {
+  const history=useHistory();
   const [userRegisterDetails, setUserRegisterDetails]=useState({
     name:"",
     email:"",
@@ -52,6 +54,7 @@ axios.post("/users/register",{
     progress: undefined,
     theme: "dark",
     });
+    history.push("/");
 }).catch((err)=>{
   // console.log(err.request.response);
   toast.error(`${err.request.response}`, {

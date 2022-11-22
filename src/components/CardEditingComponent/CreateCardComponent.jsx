@@ -22,10 +22,10 @@ const deleteCardFunc = () =>{
         <p className="card-text">{desc}</p>
         <p className="card-text"><HomeIcon/>{address}</p>
          <p className="card-text"><PhoneIcon/>{phone}</p>
-        {/* <a href="#" className="btn btn-primary"><EditIcon/>Edit</a>&nbsp;&nbsp;
-        <a href="#" className="btn btn-danger"><DeleteForeverIcon/>Delete</a> */}
-        <Link href="#" className="btn btn-primary editBtn"><BorderColorIcon/> &nbsp;Edit</Link>&nbsp;&nbsp;
-        <Link href="#" className="btn btn-danger" onClick={deleteCardFunc}><DeleteForeverIcon/> &nbsp;Delete</Link> 
+        <Link to={`/editcard/${id}`} className="btn btn-primary editBtn"><BorderColorIcon/> 
+        &nbsp;Edit</Link>&nbsp;&nbsp;
+        <Link to="#" className="btn btn-danger" onClick={deleteCardFunc}><DeleteForeverIcon/> 
+        &nbsp;Delete</Link> 
       </div>
     </div>
   </div>

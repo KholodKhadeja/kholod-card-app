@@ -5,10 +5,12 @@ import { authActions } from "store/auth";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import jwt_decode from "jwt-decode";
+import { useHistory } from "react-router-dom";
 
 
 const LoginPage = () => {
   const dispatch= useDispatch();
+  const history = useHistory();
   const [userLoginInfo, setuserLoginInfo]=useState({
     email:"",
     password:"",
@@ -40,7 +42,7 @@ const LoginPage = () => {
                 progress: undefined,
                 theme: "dark",
                 });
-               
+               history.push("/");
             }).catch((err)=>{
               let errorMsg;
               if(err.response.data==="Invalid email or password."){

@@ -5,9 +5,11 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import loginSchema from 'validation/login.validation';
 import Joi from 'joi-browser';
+import { useHistory } from 'react-router-dom';
 
 
 const RegisterForBusiness = () => {
+  const history=useHistory();
    const [userRegisterInfo, setuserRegisterInfo]=useState({
       name:"",
       email:"",
@@ -52,8 +54,6 @@ const RegisterForBusiness = () => {
     });
   }
 
-
-
   axios.post("/users/register",{
     name:userRegisterInfo.name,
     email:userRegisterInfo.email,
@@ -70,6 +70,7 @@ const RegisterForBusiness = () => {
       progress: undefined,
       theme: "dark",
       });
+      history.push("/");
   }).catch((err)=>{
     toast.error(`${err.request.response}`, {
       position: "bottom-center",

@@ -7,12 +7,12 @@
 .img-fluidH{
     height: 100% !important;
    max-width: 200px !important;
+   margin-right: 1rem !important;
 }
 .card-bodyH{
     max-width: 300px !important;
     margin-left: 2rem !important;
 }
-
 .cardV{
     text-align: left !important;
     max-width: 300px !important;
@@ -23,3 +23,30 @@
     background-color: #323232d5 !important;
     border: none !important;
 }
+
+.mainContainer{
+    background-color: white !important;
+    padding: 1rem !important;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem !important;
+    justify-content: center;
+    align-items: center;
+    }
+    .fromStyling{
+        padding-left: 2rem!important;
+        display: flex;
+        flex-direction: column;
+    }
+    .form-control{
+    }
+    .saveBtn{
+     padding: 0.5rem !important;
+    width: fit-content !important;
+    }
+    .displayImg{
+        padding-right: 2rem!important;
+        align-self: center;justify-self: right !important;
+        width: 30vw !important;
+        height: 35vh !important;
+    }

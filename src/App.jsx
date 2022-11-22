@@ -25,6 +25,8 @@ import Modal from 'components/EditingModal/ModalComponent';
 import { ToastContainer, toast } from 'react-toastify';
 import EditeCardComponent from 'components/CardEditingComponent/EditeCardComponent';
 import { authActions } from 'store/auth';
+import FailedPage from 'pages/failedPage';
+import AuthGuardRoute from 'components/AuthGuardRoute';
 function App() {
   const dispatch = useDispatch();
 useEffect(() => {
@@ -62,9 +64,10 @@ return (
   <Route path="/register" component={RegisterPage}></Route>
   <Route path="/registerb" component={RegisterForBusiness}></Route>
   <Route path="/about" component={AboutUsPage}></Route>
-  <Route path="/mycards" component={MyCardsPage}></Route>
-  <Route path="/editcard" component={EditeCardComponent}></Route>
+  <AuthGuardRoute path="/mycards" component={MyCardsPage}></AuthGuardRoute>
+  <Route path="/editcard/:id" component={EditeCardComponent}></Route>
   <Route path="/modal" component={Modal}></Route>
+  <Route path="*" component={FailedPage}></Route>
   </Switch>
 
    <FooterComponent/>
