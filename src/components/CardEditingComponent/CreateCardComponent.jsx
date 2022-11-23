@@ -4,6 +4,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import PhoneIcon from '@mui/icons-material/Phone';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link } from 'react-router-dom';
+import "./CardComponent.scss";
 
 const CreateCardComponent = ({ title, desc, address, phone, imgUrl,id, onCardDelete}) => {
 const deleteCardFunc = () =>{

@@ -7,6 +7,7 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
+import "./CardComponent.scss";
 
 const EditeCardComponent = () => {
   const history=useHistory();

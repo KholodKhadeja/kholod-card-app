@@ -1,16 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import CardComponent from 'components/CardComponent/CardComponent';
 import CreateCardComponent from 'components/CardEditingComponent/CreateCardComponent';
 import TextRotateUpIcon from '@mui/icons-material/TextRotateUp';
 import TextRotationDownIcon from '@mui/icons-material/TextRotationDown';
-
+import {  useLocation, useHistory  } from 'react-router-dom';
 import "./MyCardsPage.scss";
 import axios from 'axios';
 
 let originalArray=[];
 
 const MyCardsPage = () => {
+  const history=useHistory();
+  const location = useLocation();
+  const [newCardInfo, setNewCardInfo]=  useState({
+    title:"",
+    subTitle:"",
+    description:"",
+    address:"",
+    phone:"",
+    url:""
+  })
   const [searchInput, setSearchInput] = useState("");
   const [busnissCards, setBusnissCards] = useState(originalArray);
 
@@ -18,14 +27,38 @@ const MyCardsPage = () => {
     (async()=>{
       try{
         let {data} = await axios.get("/cards/my-cards");
-        console.log("cards loaded successfully");
         originalArray=data;
         setBusnissCards(originalArray);
       }catch(err){
-        console.log("cards failed to sync");
       }
     })();
      },[]);
+
+useEffect(() => {
+const  qparams =  new URLSearchParams(location.search);
+let newFilteredArr= undefined;
+if(qparams.has("filter")){
+  let filter = qparams.get("filter");
+  let regex = new RegExp(filter, "i");
+   newFilteredArr = JSON.parse(JSON.stringify(originalArray));
+   newFilteredArr = newFilteredArr. filter ((item)=> regex.test(item));
+   if(filter !== searchInput){
+    setSearchInput(filter);
+   }
+}
+if(qparams.has("sort")){
+  if(!newFilteredArr){
+    newFilteredArr = JSON.parse(JSON.stringify(busnissCards));
+  }
+  if(qparams.get("sort")=== "asc"){
+    newFilteredArr.sort();
+  }
+  if(qparams.get("sort")=== "asc"){
+    newFilteredArr.reverse();
+  }
+}
+if (newFilteredArr) setBusnissCards(newFilteredArr);
+}, [location]);
 
 
  useEffect(() => {
@@ -39,17 +72,36 @@ const handleChildDelete =(id)=>{
     originalArray =originalArray.filter((item)=>item._id !== id);
      setBusnissCards(originalArray);
 }
+const onInputsChangeValue = () =>{
+
+}
 const handleSearchInputChange = (ev)=>{
     setSearchInput(ev.target.value);
 }
-
-const function1 = () =>{
-
+const submitSearchWord = (ev) =>{
+if(ev.code ==="Enter"){
+  let qparams =  new URLSearchParams(location.search);
+  qparams.set("filter", searchInput);
+  history.push(`/mycards?${qparams.toString()}`);
 }
-const function2 = () =>{
-    
+}
+
+const sortAsc = () =>{
+let qparams= new URLSearchParams(location.search);
+qparams.set("sort","asc");
+history.push(`/mycards?${qparams.toString()}`);
+}
+const sortDes = () =>{
+  let qparams= new URLSearchParams(location.search);
+  qparams.set("sort","desc");
+  history.push(`/mycards?${qparams.toString()}`);
+}
+
+const handleAddCardToDB = () =>{
+
 }
  return (
+  <Fragment>
         <div className="conatinerDiv">
         <div className="myCardsPageDiv">
             <h1 className="myCardsTitle">My Cards</h1>
@@ -58,19 +110,21 @@ const function2 = () =>{
             <div className="input-group mb-1">
                  <span className="input-group-text" id="basic-addon1">Search</span>
                 <input type="text" className="form-control" placeholder="Search Word" aria-label="Username" 
-                aria-describedby="basic-addon1" value={searchInput} onChange={handleSearchInputChange} />
+                aria-describedby="basic-addon1" value={searchInput} onChange={handleSearchInputChange}  onKeyUp={submitSearchWord}/>
             </div>
             {/*this button should be showd only to biz*/}
-            <Link  className="btn btn-danger btnAddCard">Add Card</Link>
+            <button type="button" class="btn btn-danger btnAddCard" data-bs-toggle="modal" 
+            data-bs-target="#exampleModal">
+            Add Card
+            </button>
             </div>
             <div className='rightContainer'>
-           < TextRotateUpIcon className='sortIcon'  onClick={function1} />
-          < TextRotationDownIcon className='sortIcon' onClick={function2}/>
+           < TextRotateUpIcon className='sortIcon'  onClick={sortAsc} />
+          < TextRotationDownIcon className='sortIcon' onClick={sortDes}/>
             </div>
             </div>
 
             <div className="cardsContainer">
-              { console.log(busnissCards)}
             {  busnissCards.map((item,idx) => (
                     <CreateCardComponent  key={"card"+idx} title={item.title} desc={item.descreption}
                      id={item._id}
@@ -81,6 +135,64 @@ const function2 = () =>{
             </div>
         </div>
      </div>
+
+
+     {/*the hidden modal - will be shown on button click*/}
+<div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" 
+aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title" id="exampleModalLabel">Add Card</h5>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+<div className="modal-body">
+<form  className="fromStyling">
+<div className="mb-3">
+        <input type="text" className="form-control" id="title" aria-describedby="emailHelp" value={newCardInfo.title} 
+    onChange={onInputsChangeValue}/>
+  </div>
+  <div className="mb-3">
+        <input type="text" className="form-control" id="subTitle" aria-describedby="emailHelp" 
+        value={newCardInfo.subTitle} 
+    onChange={onInputsChangeValue}/>
+  </div>
+  <div className="mb-3">
+        <input type="text" className="form-control" id="description" aria-describedby="emailHelp" 
+        value={newCardInfo.description} 
+    onChange={onInputsChangeValue}/>
+  </div>
+  <div className="mb-3">
+        <input type="text" className="form-control" id="address" aria-describedby="emailHelp" 
+        value={newCardInfo.address} 
+    onChange={onInputsChangeValue}/>
+  </div>
+  <div className="mb-3">
+    <input type="text" className="form-control" id="phone" aria-describedby="emailHelp" 
+    value={newCardInfo.phone} 
+    onChange={onInputsChangeValue}/>
+  </div>
+
+  <div className="mb-3">
+    <input type="text" className="form-control" id="url" aria-describedby="emailHelp" 
+    value={newCardInfo.url} 
+    onChange={onInputsChangeValue}/>
+  </div>
+
+    <button type="submit" className="btn btn-primary saveBtn"> Save Changes</button>
+</form>
+</div>
+
+
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" className="btn btn-primary" onClick={handleAddCardToDB}>Add Card</button>
+      </div>
+    </div>
+  </div>
+</div>
+{/* ************************************************************************************ */}
+     </Fragment>
     );
 }
 
