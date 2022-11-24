@@ -12,7 +12,8 @@ import {
   Route,
   Link,
   NavLink,
-  BrowserRouter
+  BrowserRouter,
+   Redirect,
 } from "react-router-dom";
 import TopBarComponent from 'components/TopBarComponent/TopBarComponent';
 import FooterComponent from 'components/Footer/FooterComponent';
@@ -21,7 +22,6 @@ import RegisterPage from 'pages/RegisterPage/RegisterPage';
 import RegisterForBusiness from 'pages/RegisterForBusiness/RegisterForBusiness';
 import AboutUsPage from 'pages/AboutUsPage/AboutUsPage';
 import MyCardsPage from 'pages/MyCardsPage/MyCardsPage';
-import Modal from 'components/EditingModal/ModalComponent';
 import { ToastContainer, toast } from 'react-toastify';
 import EditeCardComponent from 'components/CardEditingComponent/EditeCardComponent';
 import { authActions } from 'store/auth';
@@ -66,10 +66,8 @@ return (
   <Route path="/about" component={AboutUsPage}></Route>
   <AuthGuardRoute path="/mycards" component={MyCardsPage}></AuthGuardRoute>
   <Route path="/editcard/:id" component={EditeCardComponent}></Route>
-  <Route path="/modal" component={Modal}></Route>
   <Route path="*" component={FailedPage}></Route>
   </Switch>
-
    <FooterComponent/>
    </div>
   );

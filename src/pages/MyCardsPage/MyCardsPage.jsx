@@ -1,17 +1,24 @@
 import { useState, useEffect, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import CreateCardComponent from 'components/CardEditingComponent/CreateCardComponent';
 import TextRotateUpIcon from '@mui/icons-material/TextRotateUp';
 import TextRotationDownIcon from '@mui/icons-material/TextRotationDown';
 import {  useLocation, useHistory  } from 'react-router-dom';
 import "./MyCardsPage.scss";
 import axios from 'axios';
+// import ModalPopUp from 'components/Modal/ModalPopUp';
+import Modal from 'react-bootstrap/Modal';
+import { toast } from 'react-toastify';
+
 
 let originalArray=[];
 
 const MyCardsPage = () => {
   const history=useHistory();
   const location = useLocation();
+  const [show, setShow] = useState(false);
+  let showModalStatus = false; 
+  // const showModalStatus = useSelector((state)=> state.modal.show);
   const [newCardInfo, setNewCardInfo]=  useState({
     title:"",
     subTitle:"",
@@ -22,6 +29,12 @@ const MyCardsPage = () => {
   })
   const [searchInput, setSearchInput] = useState("");
   const [busnissCards, setBusnissCards] = useState(originalArray);
+
+  useEffect(() => {
+    showModalStatus && setShow(true);
+    !showModalStatus && setShow(false);
+   }, [showModalStatus]);
+ 
 
   useEffect(()=>{    /*later change it:  GET /api/cards/card/:id*/
     (async()=>{
@@ -52,14 +65,14 @@ if(qparams.has("sort")){
   }
   if(qparams.get("sort")=== "asc"){
     newFilteredArr.sort();
+    console.log(newFilteredArr);
   }
-  if(qparams.get("sort")=== "asc"){
-    newFilteredArr.reverse();
+  if(qparams.get("sort")=== "desc"){
+    newFilteredArr.reverse(newFilteredArr.sort());
   }
 }
 if (newFilteredArr) setBusnissCards(newFilteredArr);
 }, [location]);
-
 
  useEffect(() => {
   let regex = new RegExp(searchInput, "i");
@@ -68,13 +81,20 @@ if (newFilteredArr) setBusnissCards(newFilteredArr);
   setBusnissCards(clonedArr);
  }, [searchInput]);
 
+ const handleClose = () => setShow(false);
+
 const handleChildDelete =(id)=>{
     originalArray =originalArray.filter((item)=>item._id !== id);
      setBusnissCards(originalArray);
 }
-const onInputsChangeValue = () =>{
-
+const onInputsChangeValue = (ev) =>{
+  let newCardInfoC=JSON.parse(JSON.stringify(newCardInfo));
+  if(newCardInfoC.hasOwnProperty(ev.target.id)){
+    newCardInfoC[ev.target.id]=ev.target.value;
+     setNewCardInfo(newCardInfoC);
 }
+}
+
 const handleSearchInputChange = (ev)=>{
     setSearchInput(ev.target.value);
 }
@@ -87,6 +107,7 @@ if(ev.code ==="Enter"){
 }
 
 const sortAsc = () =>{
+  console.log("entered to asc");
 let qparams= new URLSearchParams(location.search);
 qparams.set("sort","asc");
 history.push(`/mycards?${qparams.toString()}`);
@@ -98,8 +119,39 @@ const sortDes = () =>{
 }
 
 const handleAddCardToDB = () =>{
-
+  axios.post("/cards/",{
+    title:newCardInfo.title,
+    subTitle:newCardInfo.subTitle,
+    description:newCardInfo.description,
+    address:newCardInfo.address,
+    phone:newCardInfo.phone,
+    url:newCardInfo.url,
+  }).then((res)=>{
+    toast.success('Card Added Successfully!', {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
+      window.location.reload(false);
+  }).catch((err)=>{
+    toast.error(`${err.request.response}`, {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
+  })
 }
+
  return (
   <Fragment>
         <div className="conatinerDiv">
@@ -110,13 +162,17 @@ const handleAddCardToDB = () =>{
             <div className="input-group mb-1">
                  <span className="input-group-text" id="basic-addon1">Search</span>
                 <input type="text" className="form-control" placeholder="Search Word" aria-label="Username" 
-                aria-describedby="basic-addon1" value={searchInput} onChange={handleSearchInputChange}  onKeyUp={submitSearchWord}/>
+                aria-describedby="basic-addon1" value={searchInput} onChange={handleSearchInputChange}  
+                onKeyUp={submitSearchWord}/>
             </div>
             {/*this button should be showd only to biz*/}
-            <button type="button" class="btn btn-danger btnAddCard" data-bs-toggle="modal" 
-            data-bs-target="#exampleModal">
+
+            <button className="btn btn-danger btnAddCard" onClick={()=>{
+                setShow(true);
+            }}>
             Add Card
-            </button>
+             </button>
+
             </div>
             <div className='rightContainer'>
            < TextRotateUpIcon className='sortIcon'  onClick={sortAsc} />
@@ -137,61 +193,53 @@ const handleAddCardToDB = () =>{
      </div>
 
 
-     {/*the hidden modal - will be shown on button click*/}
-<div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" 
-aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="exampleModalLabel">Add Card</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-<div className="modal-body">
-<form  className="fromStyling">
+     {/* ******************************************************************************************** */}
+     <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>New Card Info</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+{/* ****************************************the end of modal body************************************* */}
 <div className="mb-3">
-        <input type="text" className="form-control" id="title" aria-describedby="emailHelp" value={newCardInfo.title} 
-    onChange={onInputsChangeValue}/>
+        <input type="text" className="form-control" id="title"  value={newCardInfo.title} 
+    onChange={onInputsChangeValue} placeholder="Title"/>
   </div>
   <div className="mb-3">
-        <input type="text" className="form-control" id="subTitle" aria-describedby="emailHelp" 
+        <input type="text" className="form-control" id="subTitle" 
         value={newCardInfo.subTitle} 
-    onChange={onInputsChangeValue}/>
+    onChange={onInputsChangeValue} placeholder="Sub Title"/>
   </div>
   <div className="mb-3">
-        <input type="text" className="form-control" id="description" aria-describedby="emailHelp" 
+        <input type="text" className="form-control" id="description" 
         value={newCardInfo.description} 
-    onChange={onInputsChangeValue}/>
+    onChange={onInputsChangeValue} placeholder="Description"/>
   </div>
   <div className="mb-3">
-        <input type="text" className="form-control" id="address" aria-describedby="emailHelp" 
+        <input type="text" className="form-control" id="address"  
         value={newCardInfo.address} 
-    onChange={onInputsChangeValue}/>
+    onChange={onInputsChangeValue} placeholder="address"/>
   </div>
   <div className="mb-3">
-    <input type="text" className="form-control" id="phone" aria-describedby="emailHelp" 
+    <input type="text" className="form-control" id="phone" 
     value={newCardInfo.phone} 
-    onChange={onInputsChangeValue}/>
+    onChange={onInputsChangeValue} placeholder="Phone"/>
   </div>
-
   <div className="mb-3">
-    <input type="text" className="form-control" id="url" aria-describedby="emailHelp" 
+    <input type="text" className="form-control" id="url" 
     value={newCardInfo.url} 
-    onChange={onInputsChangeValue}/>
+    onChange={onInputsChangeValue} placeholder="Image URL"/>
   </div>
-
-    <button type="submit" className="btn btn-primary saveBtn"> Save Changes</button>
-</form>
-</div>
-
-
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" className="btn btn-primary" onClick={handleAddCardToDB}>Add Card</button>
-      </div>
-    </div>
-  </div>
-</div>
-{/* ************************************************************************************ */}
+{/* ****************************************the end of modal body************************************* */}
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-dark" onClick={handleClose}>
+            Close
+          </button>
+          <button type="submit" className="btn btn-danger" onClick={handleAddCardToDB}>
+            Add Card
+          </button>
+        </Modal.Footer>
+      </Modal>
      </Fragment>
     );
 }

@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from "react-router-dom";
 import store from "./store/index";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.js";
 import 'react-toastify/dist/ReactToastify.css';
 
