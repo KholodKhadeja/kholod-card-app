@@ -43,7 +43,7 @@ const MyCardsPage = () => {
         originalArray=data;
         setBusnissCards(originalArray);
       }catch(err){
-        toast.error('Failed To Load Cards!', {
+        toast.error('No Cards To Show!', {
           position: "bottom-center",
           autoClose: 5000,
           hideProgressBar: false,

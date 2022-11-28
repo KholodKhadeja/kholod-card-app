@@ -27,10 +27,8 @@ const LoginPage = () => {
             ev.preventDefault();
             axios.post("/users/login", userLoginInfo)
             .then((res)=>{
-              let dataVar=res.data.token;
-              let tokenData=jwt_decode(dataVar); 
-              localStorage.setItem("token",dataVar);
-              dispatch(authActions.login(tokenData));
+              localStorage.setItem("token",res.data.token);
+              // dispatch(authActions.login(tokenData));
               autoLoginFunction(res.data.token);
               toast.success('Logged in successfully!', {
                 position: "bottom-center",
