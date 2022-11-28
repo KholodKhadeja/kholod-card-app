@@ -63,11 +63,6 @@ let LoggedInleftList= [
         url:"#",
       }
     ];
-    // const handlePageLogout=()=>{
-    //    localStorage.clear();
-    //    console.log("logout successfully done");
-    //   //  dispatch(authActions.logout());
-    // }
     return (
     <Fragment>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">

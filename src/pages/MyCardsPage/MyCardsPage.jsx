@@ -4,21 +4,21 @@ import CreateCardComponent from 'components/CardEditingComponent/CreateCardCompo
 import TextRotateUpIcon from '@mui/icons-material/TextRotateUp';
 import TextRotationDownIcon from '@mui/icons-material/TextRotationDown';
 import {  useLocation, useHistory  } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import "./MyCardsPage.scss";
 import axios from 'axios';
-// import ModalPopUp from 'components/Modal/ModalPopUp';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
-
 
 let originalArray=[];
 
 const MyCardsPage = () => {
+  const isBizUser = useSelector((state)=>state.auth.userData);
+  let showAddCardBtn =isBizUser.biz; 
   const history=useHistory();
   const location = useLocation();
   const [show, setShow] = useState(false);
   let showModalStatus = false; 
-  // const showModalStatus = useSelector((state)=> state.modal.show);
   const [newCardInfo, setNewCardInfo]=  useState({
     title:"",
     subTitle:"",
@@ -36,13 +36,23 @@ const MyCardsPage = () => {
    }, [showModalStatus]);
  
 
-  useEffect(()=>{    /*later change it:  GET /api/cards/card/:id*/
+  useEffect(()=>{
     (async()=>{
       try{
         let {data} = await axios.get("/cards/my-cards");
         originalArray=data;
         setBusnissCards(originalArray);
       }catch(err){
+        toast.error('Failed To Load Cards!', {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
       }
     })();
      },[]);
@@ -65,7 +75,6 @@ if(qparams.has("sort")){
   }
   if(qparams.get("sort")=== "asc"){
     newFilteredArr.sort();
-    console.log(newFilteredArr);
   }
   if(qparams.get("sort")=== "desc"){
     newFilteredArr.reverse(newFilteredArr.sort());
@@ -107,7 +116,6 @@ if(ev.code ==="Enter"){
 }
 
 const sortAsc = () =>{
-  console.log("entered to asc");
 let qparams= new URLSearchParams(location.search);
 qparams.set("sort","asc");
 history.push(`/mycards?${qparams.toString()}`);
@@ -167,11 +175,11 @@ const handleAddCardToDB = () =>{
             </div>
             {/*this button should be showd only to biz*/}
 
-            <button className="btn btn-danger btnAddCard" onClick={()=>{
+            { showAddCardBtn && <button className="btn btn-danger btnAddCard" onClick={()=>{
                 setShow(true);
             }}>
             Add Card
-             </button>
+             </button>}
 
             </div>
             <div className='rightContainer'>

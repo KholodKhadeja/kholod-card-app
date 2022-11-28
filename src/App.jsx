@@ -1,5 +1,6 @@
 import logo from './logo.svg';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import { useEffect } from 'react';
 import AutoLogin from 'service/autoLogin';
 import jwt_decode from "jwt-decode";
@@ -15,6 +16,7 @@ import {
   BrowserRouter,
    Redirect,
 } from "react-router-dom";
+import useAutoLogin from 'hooks/useAutoLogin';
 import TopBarComponent from 'components/TopBarComponent/TopBarComponent';
 import FooterComponent from 'components/Footer/FooterComponent';
 import LoginPage from 'pages/LoginPage/LoginPage';
@@ -28,36 +30,29 @@ import { authActions } from 'store/auth';
 import FailedPage from 'pages/failedPage';
 import AuthGuardRoute from 'components/AuthGuardRoute';
 function App() {
-  const dispatch = useDispatch();
-useEffect(() => {
-(async()=>{
-  try{
-    let {data} = await AutoLogin();
-    let dataFromToken= jwt_decode(localStorage.getItem("token"));
-    dispatch(authActions.login(dataFromToken));
-    if(data){
-      dispatch(authActions.updateUserData(data));
-     }
-  }catch(err){
-    toast.error("Error Occured, please try to login again!", {
-      position: "bottom-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-      });
-  }
-})();
-}, []);
+  
+  const autoLoginFunction = useAutoLogin();
+  const loggedIn = useSelector((state) => state.auth.loggedInVar);
+  const [tryToLogin, setTryToLogin] = useState(true);
+  useEffect(() => {
+    (async () => {
+      let status = await autoLoginFunction(localStorage.getItem("token"));
+      if (status === false) {
+        setTryToLogin(false); 
+      }
+    })();
+  }, []);
+  useEffect(() => {
+    if (loggedIn === true && tryToLogin === true) {
+      setTryToLogin(false); 
+    }
+  }, [loggedIn]);
 
 return (
    <div className='App container'>
    <ToastContainer/>
     <TopBarComponent />
-
+    { !tryToLogin && (
   <Switch>
   <Route path="/" exact  component={HomePageComponent}></Route>
   <Route path="/login"   component={LoginPage}></Route>
@@ -68,6 +63,7 @@ return (
   <Route path="/editcard/:id" component={EditeCardComponent}></Route>
   <Route path="*" component={FailedPage}></Route>
   </Switch>
+    )}
    <FooterComponent/>
    </div>
   );

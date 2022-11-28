@@ -43,7 +43,6 @@ axios.post("/users/register",{
   email:userRegisterDetails.email,
   password:userRegisterDetails.password,
 }).then((res)=>{
-  // console.log(res.request.statusText);
   toast.success('Registered successfully!', {
     position: "bottom-center",
     autoClose: 5000,
@@ -56,7 +55,6 @@ axios.post("/users/register",{
     });
     history.push("/");
 }).catch((err)=>{
-  // console.log(err.request.response);
   toast.error(`${err.request.response}`, {
     position: "bottom-center",
     autoClose: 5000,
