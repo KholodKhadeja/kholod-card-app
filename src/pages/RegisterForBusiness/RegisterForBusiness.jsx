@@ -63,58 +63,57 @@ const RegisterForBusiness = () => {
     });
   }
 
-  axios.post("/users/register",{
-    name:userRegisterInfo.name,
-    email:userRegisterInfo.email,
-    password:userRegisterInfo.password,
-    biz:true,
-  }).then((res)=>{
-    toast.success('Registered successfully!', {
-      position: "bottom-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-      });
-  //  *******************************
-  axios.post("/users/login", {
-    email: userRegisterInfo.email,
-    password: userRegisterInfo.password,
-  })
-  .then((res)=>{
-    localStorage.setItem("token",res.data.token);
-    autoLoginFunction(res.data.token);
-    history.push("/registerb2");
-  }).catch((err)=>
-  {
-         // toast.error(`${err.request.response}`, {
-    //   position: "bottom-center",
-    //   autoClose: 5000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "dark",
-    //   });
-  });
-  history.push("/registerbcard");
-  //  ****************************
-  }).catch((err)=>{
-    // toast.error(`${err.request.response}`, {
-    //   position: "bottom-center",
-    //   autoClose: 5000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "dark",
-    //   });
-  })
+  else{
+    axios.post("/users/register",{
+      name:userRegisterInfo.name,
+      email:userRegisterInfo.email,
+      password:userRegisterInfo.password,
+      biz:true,
+    }).then((res)=>{
+      toast.success('Registered successfully!', {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
+    //  *******************************
+       axios.post("/users/login", {
+          email: userRegisterInfo.email,
+          password: userRegisterInfo.password,
+            })
+           .then((res)=>{
+           localStorage.setItem("token",res.data.token);
+          autoLoginFunction(res.data.token);
+          history.push("/registerb2");
+          }).catch((err)=>
+         {});
+    history.push("/registerbcard");
+    //  ****************************
+    }).catch((err)=>{
+      let errMsg;
+      if(err.message === "Request failed with status code 400"){
+          errMsg=err.request.response;
+      }
+      if(err.message === "Network Error"){
+           errMsg= err.message;
+      }
+      toast.error(`${errMsg}`, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
+    })
+  }
+
 }
 
 return (

@@ -14,15 +14,15 @@ const CardsSliderComponent = () => {
   </div>
   <div className="carousel-inner">
     <div className="carousel-item active">
-      <img src="https://github.com/KholodKhadeja/ProjectImages/blob/main/img1.jpeg?raw=true" 
+      <img src="https://github.com/KholodKhadeja/kholod-card-app/blob/master/public/img1.jpeg?raw=true" 
       className="w-100 d-block sliderImg" alt="..." />
     </div>
     <div className="carousel-item">
-      <img src="https://github.com/KholodKhadeja/ProjectImages/blob/main/img2.jpeg?raw=true" 
+      <img src="https://github.com/KholodKhadeja/kholod-card-app/blob/master/public/img2.jpeg?raw=true" 
       className="w-100 d-block sliderImg" alt="..." />
     </div>
     <div className="carousel-item">
-      <img src="https://github.com/KholodKhadeja/ProjectImages/blob/main/img3.jpg?raw=true" 
+      <img src="https://github.com/KholodKhadeja/kholod-card-app/blob/master/public/img3.jpeg?raw=true" 
       className="w-100 d-block sliderImg" alt="..." />
     </div>
   </div>

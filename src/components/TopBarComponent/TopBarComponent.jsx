@@ -68,7 +68,8 @@ let LoggedInleftList= [
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
   <div className="container-fluid">
     <a className="navbar-brand" href="#">
-        <img src="https://github.com/KholodKhadeja/ProjectImages/blob/main/logoImg.png?raw=true"  width="90"
+        <img src="https://github.com/KholodKhadeja/kholod-card-app/blob/master/public/logoImg.png?raw=true"  
+        width="90"
    height="50"/></a>
 
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" 
@@ -85,8 +86,7 @@ let LoggedInleftList= [
              <ListItemLeftList  key={"left"+idx} label={item.label} link={item.url}/>
                   ))
    }
-      </ul>
-
+</ul>
       <ul className="d-flex navbar-nav mb-2 mb-lg-0"> 
           {
             loggedIn ? LoggedInrightList.map((item, idx)=>(

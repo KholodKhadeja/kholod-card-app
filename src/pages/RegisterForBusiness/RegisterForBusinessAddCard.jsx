@@ -82,7 +82,14 @@ theme: "dark",
 });
 history.push("/mycards");
   }).catch((err)=>{
-      toast.error(`${err.response.data}`, {
+    let errMsg;
+    if(err.message === "Request failed with status code 400"){
+         errMsg=err.request.response;
+    }
+    if(err.message === "Network Error"){
+         errMsg= err.message;
+    }
+    toast.error(`${errMsg}`, {
         position: "bottom-center",
         autoClose: 5000,
         hideProgressBar: false,

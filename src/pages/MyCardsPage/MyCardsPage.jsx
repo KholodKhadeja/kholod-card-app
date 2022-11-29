@@ -1,8 +1,6 @@
 import { useState, useEffect, Fragment } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import CreateCardComponent from 'components/CardEditingComponent/CreateCardComponent';
-import TextRotateUpIcon from '@mui/icons-material/TextRotateUp';
-import TextRotationDownIcon from '@mui/icons-material/TextRotationDown';
 import {  useLocation, useHistory  } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import "./MyCardsPage.scss";
@@ -11,13 +9,10 @@ import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 import cardSchema from 'validation/card.validation';
-import { redirect } from "react-router-dom";
-
 
 let originalArray=[];
 
 const MyCardsPage = () => {
-  const [cardAddedSuccessfully , setCardAddedSuccessfully] = useState(false);
   const isBizUser = useSelector((state)=>state.auth.userData);
   let showAddCardBtn =isBizUser.biz; 
   const history=useHistory();
@@ -61,32 +56,6 @@ const MyCardsPage = () => {
     })();
      },[]);
 
-useEffect(() => {
-const  qparams =  new URLSearchParams(location.search);
-let newFilteredArr= undefined;
-if(qparams.has("filter")){
-  let filter = qparams.get("filter");
-  let regex = new RegExp(filter, "i");
-   newFilteredArr = JSON.parse(JSON.stringify(originalArray));
-   newFilteredArr = newFilteredArr. filter ((item)=> regex.test(item));
-   if(filter !== searchInput){
-    setSearchInput(filter);
-   }
-}
-if(qparams.has("sort")){
-  if(!newFilteredArr){
-    newFilteredArr = JSON.parse(JSON.stringify(busnissCards));
-  }
-  if(qparams.get("sort")=== "asc"){
-    newFilteredArr.sort();
-  }
-  if(qparams.get("sort")=== "desc"){
-    newFilteredArr.reverse(newFilteredArr.sort());
-  }
-}
-if (newFilteredArr) setBusnissCards(newFilteredArr);
-}, [location]);
-
  useEffect(() => {
   let regex = new RegExp(searchInput, "i");
   let clonedArr = JSON.parse(JSON.stringify(originalArray));
@@ -98,7 +67,6 @@ if (newFilteredArr) setBusnissCards(newFilteredArr);
   setShow(false);
   window.location.reload();
 }
-
 
 const handleChildDelete =(id)=>{
     originalArray =originalArray.filter((item)=>item._id !== id);
@@ -114,24 +82,6 @@ const onInputsChangeValue = (ev) =>{
 
 const handleSearchInputChange = (ev)=>{
     setSearchInput(ev.target.value);
-}
-const submitSearchWord = (ev) =>{
-if(ev.code ==="Enter"){
-  let qparams =  new URLSearchParams(location.search);
-  qparams.set("filter", searchInput);
-  history.push(`/mycards?${qparams.toString()}`);
-}
-}
-
-const sortAsc = () =>{
-let qparams= new URLSearchParams(location.search);
-qparams.set("sort","asc");
-history.push(`/mycards?${qparams.toString()}`);
-}
-const sortDes = () =>{
-  let qparams= new URLSearchParams(location.search);
-  qparams.set("sort","desc");
-  history.push(`/mycards?${qparams.toString()}`);
 }
 
 const handleAddCardToDB = (ev) =>{
@@ -149,8 +99,8 @@ const handleAddCardToDB = (ev) =>{
     theme: "dark",
     });
   }
-
-  axios.post("/cards/",{
+   else{
+      axios.post("/cards/",{
     title:newCardInfo.title,
     subTitle:newCardInfo.subTitle,
     description:newCardInfo.description,
@@ -170,17 +120,26 @@ const handleAddCardToDB = (ev) =>{
       });
       handleClose();
   }).catch((err)=>{
-    // toast.error(`${err.request.response}`, {
-    //   position: "bottom-center",
-    //   autoClose: 5000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "dark",
-    //   });
+    let errMsg;
+    if(err.message === "Request failed with status code 400"){
+         errMsg=err.request.response;
+    }
+    if(err.message === "Network Error"){
+         errMsg= err.message;
+    }
+    toast.error(`${errMsg}`, {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
   })
+   }
+
 }
 
  return (
@@ -193,21 +152,15 @@ const handleAddCardToDB = (ev) =>{
             <div className="input-group mb-1">
                  <span className="input-group-text" id="basic-addon1">Search</span>
                 <input type="text" className="form-control" placeholder="Search Word" aria-label="Username" 
-                aria-describedby="basic-addon1" value={searchInput} onChange={handleSearchInputChange}  
-                onKeyUp={submitSearchWord}/>
+                aria-describedby="basic-addon1" value={searchInput} onChange={handleSearchInputChange} /> 
             </div>
-            {/*this button should be showd only to biz*/}
-
             { showAddCardBtn && <button className="btn btn-danger btnAddCard" onClick={()=>{
                 setShow(true);
             }}>
             Add Card
              </button>}
-
             </div>
             <div className='rightContainer'>
-           < TextRotateUpIcon className='sortIcon'  onClick={sortAsc} />
-          < TextRotationDownIcon className='sortIcon' onClick={sortDes}/>
             </div>
             </div>
 
@@ -264,7 +217,6 @@ const handleAddCardToDB = (ev) =>{
   <button type="submit" className="btn btn-danger formBtn">
             Add Card
           </button>
-
   <button className="btn btn-dark formBtn" onClick={handleClose}>
             Close
    </button>

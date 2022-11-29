@@ -28,7 +28,6 @@ const LoginPage = () => {
             axios.post("/users/login", userLoginInfo)
             .then((res)=>{
               localStorage.setItem("token",res.data.token);
-              // dispatch(authActions.login(tokenData));
               autoLoginFunction(res.data.token);
               toast.success('Logged in successfully!', {
                 position: "bottom-center",
@@ -42,14 +41,14 @@ const LoginPage = () => {
                 });
                history.push("/");
             }).catch((err)=>{
-              let errorMsg;
-              if(err.response.data==="Invalid email or password."){
-               errorMsg="You NEED to RIGSTER!";
-               }
-               else{
-                errorMsg=err.response.data;
-               }
-              toast.error(`${errorMsg}`, {
+              let errMsg;
+              if(err.message === "Request failed with status code 400"){
+                   errMsg=err.request.response;
+              }
+              if(err.message === "Network Error"){
+                   errMsg= err.message;
+              }
+              toast.error(`${errMsg}`, {
                 position: "bottom-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -69,7 +68,8 @@ const LoginPage = () => {
              <form onSubmit={handleLoginFormSubmition} className="signForm"> 
                 <div className="mb-3">
              <label htmlFor="exampleInputEmail1" className="form-label">Email</label>
-             <input type="email" className="form-control" id="email" aria-describedby="emailHelp" value={userLoginInfo.email}
+             <input type="email" className="form-control" id="email" aria-describedby="emailHelp" 
+             value={userLoginInfo.email}
                onChange={onChangeInputs}/>
              <div id="emailHelp" className="form-text"></div>
              </div>

@@ -37,35 +37,43 @@ const handleRegisterFormSubmition = ()=>{
     theme: "dark",
     });
   }
-
-axios.post("/users/register",{
-  name:userRegisterDetails.name,
-  email:userRegisterDetails.email,
-  password:userRegisterDetails.password,
-}).then((res)=>{
-  toast.success('Registered successfully!', {
-    position: "bottom-center",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-    });
-    history.push("/login");
-}).catch((err)=>{
-  toast.error(`${err.request.response}`, {
-    position: "bottom-center",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-    });
-})
+ else{
+  axios.post("/users/register",{
+    name:userRegisterDetails.name,
+    email:userRegisterDetails.email,
+    password:userRegisterDetails.password,
+  }).then((res)=>{
+    toast.success('Registered successfully!', {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
+      history.push("/login");
+  }).catch((err)=>{
+    let errMsg;
+    if(err.message === "Request failed with status code 400"){
+        errMsg=err.request.response;
+    }
+    if(err.message === "Network Error"){
+         errMsg= err.message;
+    }
+    toast.error(`${errMsg}`, {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
+  })
+ }
 };
 
  return (
