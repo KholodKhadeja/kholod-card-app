@@ -14,7 +14,7 @@ import {
   Link,
   NavLink,
   BrowserRouter,
-   Redirect,
+  Redirect,
 } from "react-router-dom";
 import useAutoLogin from 'hooks/useAutoLogin';
 import TopBarComponent from 'components/TopBarComponent/TopBarComponent';
@@ -22,6 +22,7 @@ import FooterComponent from 'components/Footer/FooterComponent';
 import LoginPage from 'pages/LoginPage/LoginPage';
 import RegisterPage from 'pages/RegisterPage/RegisterPage';
 import RegisterForBusiness from 'pages/RegisterForBusiness/RegisterForBusiness';
+import RegisterForBusinessAddCard from 'pages/RegisterForBusiness/RegisterForBusinessAddCard';
 import AboutUsPage from 'pages/AboutUsPage/AboutUsPage';
 import MyCardsPage from 'pages/MyCardsPage/MyCardsPage';
 import { ToastContainer, toast } from 'react-toastify';
@@ -58,6 +59,7 @@ return (
   <Route path="/login"   component={LoginPage}></Route>
   <Route path="/register" component={RegisterPage}></Route>
   <Route path="/registerb" component={RegisterForBusiness}></Route>
+  <Route path="/registerbcard" component={RegisterForBusinessAddCard}></Route>
   <Route path="/about" component={AboutUsPage}></Route>
   <AuthGuardRoute path="/mycards" component={MyCardsPage}></AuthGuardRoute>
   <Route path="/editcard/:id" component={EditeCardComponent}></Route>

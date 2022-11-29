@@ -3,8 +3,8 @@ import "./CardsSliderComponent.scss";
 
 const CardsSliderComponent = () => {
     return (
+      <div className='fatherContainer'>
 <div className='cardsSlider'>
-
 <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
   <div className="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true"
@@ -14,16 +14,20 @@ const CardsSliderComponent = () => {
   </div>
   <div className="carousel-inner">
     <div className="carousel-item active">
-      <img src="https://github.com/KholodKhadeja/ProjectImages/blob/main/img1.jpg?raw=true" className="w-100 d-block sliderImg" alt="..." />
+      <img src="https://github.com/KholodKhadeja/ProjectImages/blob/main/img1.jpeg?raw=true" 
+      className="w-100 d-block sliderImg" alt="..." />
     </div>
     <div className="carousel-item">
-      <img src="https://github.com/KholodKhadeja/ProjectImages/blob/main/img2.jpg?raw=true" className="w-100 d-block sliderImg" alt="..." />
+      <img src="https://github.com/KholodKhadeja/ProjectImages/blob/main/img2.jpeg?raw=true" 
+      className="w-100 d-block sliderImg" alt="..." />
     </div>
     <div className="carousel-item">
-      <img src="https://github.com/KholodKhadeja/ProjectImages/blob/main/img3.jpg?raw=true" className="w-100 d-block sliderImg" alt="..." />
+      <img src="https://github.com/KholodKhadeja/ProjectImages/blob/main/img3.jpg?raw=true" 
+      className="w-100 d-block sliderImg" alt="..." />
     </div>
   </div>
-  <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+  <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" 
+  data-bs-slide="prev">
     <span className="carousel-control-prev-icon" aria-hidden="true"></span>
     <span className="visually-hidden">Previous</span>
   </button>
@@ -32,9 +36,9 @@ const CardsSliderComponent = () => {
     <span className="carousel-control-next-icon" aria-hidden="true"></span>
     <span className="visually-hidden">Next</span>
   </button>
+</div>        
 </div>
-           
-        </div>
+</div>
     );
 }
 

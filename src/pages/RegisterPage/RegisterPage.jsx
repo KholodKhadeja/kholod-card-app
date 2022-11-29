@@ -53,7 +53,7 @@ axios.post("/users/register",{
     progress: undefined,
     theme: "dark",
     });
-    history.push("/");
+    history.push("/login");
 }).catch((err)=>{
   toast.error(`${err.request.response}`, {
     position: "bottom-center",

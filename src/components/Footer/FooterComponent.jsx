@@ -4,7 +4,7 @@ import "./Footer.scss";
 const FooterComponent = () => {
     return (
         <div className='mainFooter'>
-            <span>footer here footer here footer here footer here</span>
+            <span>Developed by: Kholod Khadeja, HackerU college student</span>
         </div>
     );
 }

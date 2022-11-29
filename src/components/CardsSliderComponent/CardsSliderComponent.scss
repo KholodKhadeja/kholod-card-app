@@ -1,8 +1,15 @@
 @import '../../App.scss';
+.fatherContainer{
+    width: 100% !important;
+    display: flex;
+    align-items: center;justify-content: center;
+    background-color: rgba(0, 0, 0, 0.91);
+}
 .cardsSlider{
     background-color: rgba(0, 0, 0, 0.91);
     padding-top: $md-padding;
     height: fit-content;
+    width: 50vw !important;
 }
 .sliderImg{
     width: 10% !important;

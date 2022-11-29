@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, Link } from "react-router-dom";
 import { authActions } from "store/auth";
 import { useHistory } from "react-router-dom";
+import "./partialStyling.scss";
 
 
 const ListItemRightList = ({label,link}) => {

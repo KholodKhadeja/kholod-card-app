@@ -6,13 +6,18 @@ import TextRotationDownIcon from '@mui/icons-material/TextRotationDown';
 import {  useLocation, useHistory  } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import "./MyCardsPage.scss";
+import Joi from 'joi-browser';
 import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
+import cardSchema from 'validation/card.validation';
+import { redirect } from "react-router-dom";
+
 
 let originalArray=[];
 
 const MyCardsPage = () => {
+  const [cardAddedSuccessfully , setCardAddedSuccessfully] = useState(false);
   const isBizUser = useSelector((state)=>state.auth.userData);
   let showAddCardBtn =isBizUser.biz; 
   const history=useHistory();
@@ -35,7 +40,6 @@ const MyCardsPage = () => {
     !showModalStatus && setShow(false);
    }, [showModalStatus]);
  
-
   useEffect(()=>{
     (async()=>{
       try{
@@ -90,7 +94,11 @@ if (newFilteredArr) setBusnissCards(newFilteredArr);
   setBusnissCards(clonedArr);
  }, [searchInput]);
 
- const handleClose = () => setShow(false);
+ const handleClose = () => {
+  setShow(false);
+  window.location.reload();
+}
+
 
 const handleChildDelete =(id)=>{
     originalArray =originalArray.filter((item)=>item._id !== id);
@@ -126,7 +134,22 @@ const sortDes = () =>{
   history.push(`/mycards?${qparams.toString()}`);
 }
 
-const handleAddCardToDB = () =>{
+const handleAddCardToDB = (ev) =>{
+  ev.preventDefault();
+  const validateCardData=Joi.validate(newCardInfo, cardSchema);
+  if(validateCardData.error){
+      toast.error(`${validateCardData.error}`, {
+    position: "bottom-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    });
+  }
+
   axios.post("/cards/",{
     title:newCardInfo.title,
     subTitle:newCardInfo.subTitle,
@@ -137,7 +160,7 @@ const handleAddCardToDB = () =>{
   }).then((res)=>{
     toast.success('Card Added Successfully!', {
       position: "bottom-center",
-      autoClose: 5000,
+      autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -145,18 +168,18 @@ const handleAddCardToDB = () =>{
       progress: undefined,
       theme: "dark",
       });
-      window.location.reload(false);
+      handleClose();
   }).catch((err)=>{
-    toast.error(`${err.request.response}`, {
-      position: "bottom-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-      });
+    // toast.error(`${err.request.response}`, {
+    //   position: "bottom-center",
+    //   autoClose: 5000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    //   theme: "dark",
+    //   });
   })
 }
 
@@ -207,7 +230,8 @@ const handleAddCardToDB = () =>{
           <Modal.Title>New Card Info</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-{/* ****************************************the end of modal body************************************* */}
+{/* ****************************************the modal body************************************* */}
+<form onSubmit={handleAddCardToDB}>
 <div className="mb-3">
         <input type="text" className="form-control" id="title"  value={newCardInfo.title} 
     onChange={onInputsChangeValue} placeholder="Title"/>
@@ -237,15 +261,17 @@ const handleAddCardToDB = () =>{
     value={newCardInfo.url} 
     onChange={onInputsChangeValue} placeholder="Image URL"/>
   </div>
+  <button type="submit" className="btn btn-danger formBtn">
+            Add Card
+          </button>
+
+  <button className="btn btn-dark formBtn" onClick={handleClose}>
+            Close
+   </button>
+  </form>
 {/* ****************************************the end of modal body************************************* */}
         </Modal.Body>
         <Modal.Footer>
-          <button className="btn btn-dark" onClick={handleClose}>
-            Close
-          </button>
-          <button type="submit" className="btn btn-danger" onClick={handleAddCardToDB}>
-            Add Card
-          </button>
         </Modal.Footer>
       </Modal>
      </Fragment>
