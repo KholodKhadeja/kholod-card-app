@@ -28,7 +28,7 @@ import MyCardsPage from 'pages/MyCardsPage/MyCardsPage';
 import { ToastContainer, toast } from 'react-toastify';
 import EditeCardComponent from 'components/CardEditingComponent/EditeCardComponent';
 import { authActions } from 'store/auth';
-import FailedPage from 'pages/failedPage';
+import FailedPage from 'pages/FailedPage/FailedPage';
 import AuthGuardRoute from 'components/AuthGuardRoute';
 function App() {
   

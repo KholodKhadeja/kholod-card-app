@@ -14,7 +14,7 @@ const IntroSectionComponent = () => {
                 <p>
                     Welcome To Our Online Busniess Cards.<br/>
                     You Can Create a Card With The Template That You Like & Choose. <br/>
-                    Customize The Card And Download it.
+                    Customize The Card.
                     What Are You Waiting For?<br/>
                     Register and Start You Free Account Now! <br /><br />
                     {  !loggedIn &&
