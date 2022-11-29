@@ -3,7 +3,7 @@ import { Fragment } from "react";
 
 const FailedPage = () => {
     return (
-<Fragment>
+<div className="mainContainerFailedPage">
 <h1 className='failedMainCon'>
 Oooops! Failed To Load The Page!<br/>
 Reload The Page!
@@ -34,7 +34,7 @@ Reload The Page!
   <span class="visually-hidden">Loading...</span>
 </div>
 </div>
-</Fragment>
+</div>
     );
 }
 

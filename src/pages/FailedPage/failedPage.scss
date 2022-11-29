@@ -1,3 +1,10 @@
+.mainContainerFailedPage{
+  height: 85vh !important;
+  background-color: rgba(255, 255, 255, 0.64);
+  display: flex;
+  justify-content: center;align-items: center;
+  flex-direction: column;
+}
 .failedMainCon{
     width: 100% !important;
   text-align: center;
